@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    title jade测试
+    link(rel='stylesheet', href='/static/stylesheets/style.css')
+  body
+    // url用这个 /jade/1?name=<div%20style="color:red;">hehe</div>
+    //直接输出文本,默认都是转义了的
+    | #{name}
+    = name
+    //这个是不转义的写法
+    != name
+
+    b(id=name) fuck
+
+    div#markdown 
+      //markdown过滤器
+      :markdown
+        Woah! jade _and_ markdown, very **cool**
+        we can even link to [stuff](http://google.com)
+
+    ul
+      //代码段
+      - var arr = [{name:'a',id:1}, {name:'b',id:2}, {name:'c',id:3}];
+      - arr.forEach(function(item){
+          //标签内文本赋值用li=
+          li(id=item.id)= item.name
+      - })

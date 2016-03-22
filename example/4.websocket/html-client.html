@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>WebSocket Test</title>
+        <!--一个字符串转ArrayBuffer的库-->
+        <script type="text/javascript" src="https://raw.githubusercontent.com/inexorabletash/text-encoding/master/lib/encoding.js"></script>
+    </head>
+    <body>
+        <h2>WebSocket Test</h2>
+        <div>
+            <input id="txt1" type="text" value="" />
+            <input id="btn1" type="button" value="发送文本" />
+        </div>
+        <div>
+            <input id="file1" type="file" />(如果选择图片可以预览)
+            <input id="btn2" type="button" value="发送文件" />
+            <img id="img1" alt="" style="max-width:100%;"/>
+        </div>
+        <div id="output"></div>
+        <script type="text/javascript">
+            var wsUri ="ws://192.168.1.103:8088/";
+            var websocket = new WebSocket(wsUri);
+            websocket.onopen = function(evt) { 
+                console.warn('CONNECTED');
+            }; 
+            websocket.onclose = function(evt) { 
+                console.warn('DISCONNECTED');
+            }; 
+            websocket.onmessage = function(evt) { 
+                console.info('RESPONSE: ' + evt.data);
+            }; 
+            websocket.onerror = function(evt) { 
+                console.error('ERROR: ' + evt.data);
+            };
+
+            document.getElementById('btn1').addEventListener('click', function(){
+                var text = document.getElementById('txt1').value;
+                websocket.send(text); 
+            });
+            document.getElementById('file1').addEventListener('change', function(e){
+                var files = document.getElementById('file1').files;
+                if(files.length > 0) {
+                    var f0 = files[0];
+                    if(/image.*/.test(f0.type)){
+                        var reader = new FileReader();
+                        reader.onload=function(e){
+                            document.getElementById('img1').src = e.target.result;
+                        }
+                        reader.readAsDataURL(f0);
+                    }
+                }
+            });
+            document.getElementById('btn2').addEventListener('click', function(){
+                var files = document.getElementById('file1').files;
+                if(files.length > 0) {
+                    var f0 = files[0];
+                    var reader = new FileReader();
+                    reader.onload=function(e){
+                        //获取文件名的arraybuffer
+                        var abFilename = str2abEx(f0.name);
+                        var abvFilename = new Uint8Array(abFilename);
+                        var abvFileContent = new Uint8Array(e.target.result);
+                        var v = new Uint8Array(255 + e.target.result.byteLength);
+                        //把文件名的arraybuffer复制到v的前255个字节
+                        v.set(abvFilename, 0);
+                        //把文件内容的arraybuffer复制到v,索引从255开始
+                        v.set(abvFileContent, 255);
+                        //实际上就是传递文件内容的同时,手动添加文件名的二进制数据到buffer中
+                        websocket.send(v.buffer);
+                    }
+                    reader.readAsArrayBuffer(f0);
+                }
+            });
+
+            //返回ArrayBufferView, 只能处理英文
+            function str2ab(str) {
+                var buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
+                var bufView = new Uint16Array(buf);
+                for (var i=0, strLen=str.length; i<strLen; i++) {
+                    bufView[i] = str.charCodeAt(i);
+                    console.log(bufView[i])
+                }
+                return buf;
+            }
+            //返回ArrayBufferView, 能处理中文
+            function str2abEx(str) {
+                var te = new TextEncoder('utf-8');
+                var uint8Array = te.encode(str);
+                return uint8Array.buffer;
+            }
+        </script>
+    </body>
+</html>
