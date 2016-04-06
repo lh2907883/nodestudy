@@ -9,11 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "babel-core": "^6.5.2",
     "commander": "^2.9.0",
+    "multi-node": "^0.2.3",
     "mysql": "^2.0.0-alpha9",
     "orm": "^2.1.30",
     "ws": "^1.0.1"
-  },
-  "devDependencies": {}
+  }
 }
