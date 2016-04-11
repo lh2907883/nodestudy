@@ -1,14 +1,13 @@
 'use strict';
 
-var _part = require('./part2');
+var _part = require('./part1');
 
 var _part2 = _interopRequireDefault(_part);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var a = 'fuck1';
-console.log(a);
+require('./part0.js');
 
-require('./part1.js');
+// import part1 from './part1'
 
-console.log(_part2.default);
+(0, _part.part1_c)(_part2.default, _part.part1_b);

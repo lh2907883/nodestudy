@@ -27,7 +27,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= config.app %>',
-          src: ['*.es6'],
+          src: ['**/*.es6'],
           dest: '<%= config.export %>',
           ext: '.js'
         }]
