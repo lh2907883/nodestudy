@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+</head>
+<body>
+    <input type="button" onclick="connect('/')" value="心跳连接(在服务器响应结束后自动重连)" />
+    <input type="button" onclick="connect('/server_interval')" value="长连接(服务器不主动断开连接)" />
+    <script>
+        var source;
+        function connect(router){
+            if(source){
+                //断开连接
+                source.close();
+            }
+            source = new EventSource('http://127.0.0.1:8880' + router);
+            source.onmessage = function(e) {  //监听信息的传输
+                var origin = e.origin;
+                console.log(e.data);
+            };
+            source.onerror = function(e) { //当连接发生error时触发
+                // console.log(e);
+            };
+            source.onopen = function(e) { //当连接正式建立时触发
+                // console.log(e);
+            };
+        }
+    </script>
+</body>
+</html>
