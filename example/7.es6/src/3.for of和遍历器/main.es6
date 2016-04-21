@@ -14,7 +14,7 @@ do{
 }
 while(!s.done);
 
-//下面为User类自定义一个遍历器
+//下面为User类自定义一个遍历器生成方法(该方法返回一个遍历器)
 let User = function(name, gender, age){
     //Object.assign方法是对象属性拷贝(类似jquery的$.extend)
     //{name, gender, age}是通过解构赋值把函数形参解构成{name:name, gender:gender, age:age}对象
