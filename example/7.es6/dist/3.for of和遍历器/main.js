@@ -63,7 +63,7 @@ User.prototype[Symbol.iterator] = function () {
                 return { done: true };
             }
         },
-        //在异常,break等情况下会调用return方法
+        //在return,break等情况下会调用return方法
         return: function _return() {
             console.log('中途退出啦!');
             return { done: true };
