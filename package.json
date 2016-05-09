@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^2.9.0",
+    "formidable": "^1.0.17",
     "multi-node": "^0.2.3",
     "mysql": "^2.0.0-alpha9",
     "orm": "^2.1.30",

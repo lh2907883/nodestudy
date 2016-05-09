@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <script type="text/javascript" src="http://hello.lianaibiji.com/vue/zepto.min.js"></script>
+</head>
+<body>
+    <form action="/upload" enctype="multipart/form-data" method="post">
+        <input type="file" name="upload" multiple="multiple">
+        <input type="submit" value="Upload">
+    </form>
+
+    <input type="file" name="file" id="file" required />
+    <a href="javascript:sendForm()">Stash the file!</a>
+
+    <script type="text/javascript">
+        function sendForm() {
+            var fileInputElement = document.getElementById('file')
+
+            var oMyForm = new FormData();
+
+            oMyForm.append("username", "Groucho");
+            oMyForm.append("accountnum", 123456); // 数字123456被立即转换成字符串"123456"
+
+            // fileInputElement中已经包含了用户所选择的文件
+            oMyForm.append("userfile", fileInputElement.files[0]);
+
+            var oFileBody = '<a id="a"><b id="b">hey!</b></a>'; // Blob对象包含的文件内容
+            var oBlob = new Blob([oFileBody], { type: "text/xml"});
+
+            oMyForm.append("webmasterfile", oBlob);
+
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "/upload");
+            oReq.send(oMyForm);
+        }
+    </script>
+</body>
+</html>
