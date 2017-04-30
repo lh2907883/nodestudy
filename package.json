@@ -16,5 +16,8 @@
     "mysql": "^2.0.0-alpha9",
     "orm": "^2.1.30",
     "ws": "^1.0.1"
+  },
+  "devDependencies": {
+    "later": "^1.2.0"
   }
 }
